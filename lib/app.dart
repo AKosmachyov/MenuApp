@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
-import 'product_list_tab.dart';
-import 'search_tab.dart';
-import 'shopping_cart_tab.dart';
+import 'pages/product_list_tab.dart';
+import 'pages/search_tab.dart';
+// import 'pages/shopping_cart_tab.dart';
 
 class CupertinoStoreApp extends StatelessWidget {
   @override
@@ -34,10 +34,10 @@ class CupertinoStoreHomePage extends StatelessWidget {
             icon: Icon(CupertinoIcons.search),
             label: 'Search',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.shopping_cart),
-            label: 'Cart',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(CupertinoIcons.shopping_cart),
+          //   label: 'Cart',
+          // ),
         ],
       ),
       tabBuilder: (context, index) {
@@ -57,13 +57,13 @@ class CupertinoStoreHomePage extends StatelessWidget {
               );
             });
             break;
-          case 2:
-            returnValue = CupertinoTabView(builder: (context) {
-              return CupertinoPageScaffold(
-                child: ShoppingCartTab(),
-              );
-            });
-            break;
+          // case 2:
+          //   returnValue = CupertinoTabView(builder: (context) {
+          //     return CupertinoPageScaffold(
+          //       child: ShoppingCartTab(),
+          //     );
+          //   });
+          //   break;
         }
         return returnValue;
       },

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import 'model/app_state_model.dart';
-import 'product_row_item.dart';
-import 'search_bar.dart';
-import 'styles.dart';
+import '../model/app_state_model.dart';
+import '../product_row_item.dart';
+import '../search_bar.dart';
+import '../styles.dart';
 
 class SearchTab extends StatefulWidget {
   @override
@@ -51,25 +51,25 @@ class _SearchTabState extends State<SearchTab> {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<AppStateModel>(context);
-    final result = model.search(_terms);
+    // final result = model.search(_terms);
 
     return DecoratedBox(
       decoration: const BoxDecoration(
         color: Styles.scaffoldBackground,
       ),
-      child: SafeArea(
-        child: Column(
-          children: [
-            _buildSearchBox(),
-            Expanded(
-                child: ListView.builder(
-              itemBuilder: (context, index) => ProductRowItem(
-                  product: result[index], lastItem: index == result.length - 1),
-              itemCount: result.length,
-            )),
-          ],
-        ),
-      ),
+      // child: SafeArea(
+      //   child: Column(
+      //     children: [
+      //       _buildSearchBox(),
+      //       Expanded(
+      //           child: ListView.builder(
+      //         itemBuilder: (context, index) => ProductRowItem(
+      //             product: result[index], lastItem: index == result.length - 1),
+      //         itemCount: result.length,
+      //       )),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
