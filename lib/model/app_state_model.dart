@@ -9,7 +9,7 @@ double _shippingCostPerItem = 7;
 class AppStateModel extends foundation.ChangeNotifier {
   // // All the available products.
   // List<Product> _availableProducts = [];
-
+  List<Recipe> _recipes = [];
   // // The currently selected category of products.
   // Category _selectedCategory = Category.all;
 
@@ -60,15 +60,15 @@ class AppStateModel extends foundation.ChangeNotifier {
   // }
 
   // // Returns a copy of the list of available products, filtered by category.
-  // List<Product> getProducts() {
-  //   if (_selectedCategory == Category.all) {
-  //     return List.from(_availableProducts);
-  //   } else {
-  //     return _availableProducts.where((p) {
-  //       return p.category == _selectedCategory;
-  //     }).toList();
-  //   }
-  // }
+  List<Recipe> getRecipes() {
+    // if (_selectedCategory == Category.all) {
+    return List.from(_recipes);
+    // } else {
+    //   return _availableProducts.where((p) {
+    //     return p.category == _selectedCategory;
+    //   }).toList();
+    // }
+  }
 
   // // Search the product catalog
   // List<Product> search(String searchTerms) {
@@ -113,9 +113,11 @@ class AppStateModel extends foundation.ChangeNotifier {
   // }
 
   // // Loads the list of available products from the repo.
-  void loadProducts() {
-    // _availableProducts = ProductsRepository.loadProducts(Category.all);
-    // notifyListeners();
+  void loadProducts() async {
+    try {
+      _recipes = await ProductsRepository().fetchRecipes();
+      notifyListeners();
+    } on Exception catch (ex) {}
   }
 
   // void setCategory(Category newCategory) {
