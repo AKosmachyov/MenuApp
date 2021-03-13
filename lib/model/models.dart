@@ -48,6 +48,8 @@ class Recipe {
 
   List<RecipeIngredient> ingredients;
   List<Instruction> instructions;
+
+  int get totalTime => preparationMinutes ?? 0 + (cookingMinutes ?? 0);
 }
 
 class RecipeIngredient {

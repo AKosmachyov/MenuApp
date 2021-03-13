@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:menu_app/styles.dart';
 
 import 'pages/home_tab.dart';
 import 'pages/search_tab.dart';
@@ -14,7 +15,8 @@ class CupertinoStoreApp extends StatelessWidget {
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     return CupertinoApp(
-      theme: const CupertinoThemeData(brightness: Brightness.light),
+      theme: const CupertinoThemeData(
+          brightness: Brightness.light, primaryColor: Styles.primaryColor),
       home: CupertinoStoreHomePage(),
     );
   }
