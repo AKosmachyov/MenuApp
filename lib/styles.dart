@@ -55,6 +55,8 @@ abstract class Styles {
 
   static const Color backgroundPrimaryColor = Color(0xFFFFFFFF);
 
+  static const Color raitingColor = Color(0xFFFEBF00);
+
   static const TextStyle headerTextStyle = TextStyle(
     color: textPrimaryColor,
     fontSize: 18,

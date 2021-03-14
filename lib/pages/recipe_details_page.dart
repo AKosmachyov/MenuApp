@@ -12,7 +12,7 @@ class RecipeDetailsPage extends StatefulWidget {
 
 class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
   Future<Recipe>? futureRecipe;
-  int _sliding = 0;
+  int _segmentIndex = 0;
 
   @override
   void initState() {
@@ -43,27 +43,52 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
   }
 
   Widget _buildPageContent(Recipe recipe) {
-    // return CupertinoSlidingSegmentedControl(
-    //     children: {
-    //       0: Text('Ingredients'),
-    //       1: Text('Direction'),
-    //       2: Text('Review'),
-    //     },
-    //     groupValue: _sliding,
-    //     onValueChanged: (newValue) {
-    //       // setState(() {
-    //       //   _sliding = newValue.;
-    //       // });
-    //     });
+    var selectedPage = _segmentIndex == 0
+        ? _buildIngredientList(recipe)
+        : _buildInstructionList(recipe);
 
     return SingleChildScrollView(
-      child: Column(
-        children: [_buildInfoCard(recipe), _buildInstructionList(recipe)],
-      ),
-    );
+        child: Column(
+      children: [
+        _buildInfoCard(recipe),
+        CupertinoSlidingSegmentedControl(
+          groupValue: _segmentIndex,
+          children: {
+            0: Text('Ingredients'),
+            1: Text('Instructions'),
+            // 2: Text('Review'),
+          },
+          onValueChanged: (int? newValue) {
+            if (newValue == null) {
+              return;
+            }
+            setState(() {
+              _segmentIndex = newValue;
+            });
+          },
+        ),
+        SizedBox(height: 10),
+        selectedPage
+      ],
+    ));
   }
 
   Widget _buildInfoCard(Recipe recipe) {
+    var stars = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(CupertinoIcons.star_fill, size: 14, color: Styles.raitingColor),
+        Icon(CupertinoIcons.star_fill, size: 14, color: Styles.raitingColor),
+        Icon(CupertinoIcons.star_fill, size: 14, color: Styles.raitingColor),
+        Icon(CupertinoIcons.star_lefthalf_fill,
+            size: 14, color: Styles.raitingColor),
+        Icon(CupertinoIcons.star, size: 14, color: Styles.raitingColor),
+        SizedBox(width: 5),
+        Text("(1.832)",
+            style:
+                const TextStyle(color: Styles.textSecondaryColor, fontSize: 14))
+      ],
+    );
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
       padding: const EdgeInsets.all(16),
@@ -74,14 +99,17 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(recipe.title, style: Styles.headerTextStyle),
+        const SizedBox(height: 5),
         // TODO use author from recipe
         Text(
           "by Author",
           style:
               const TextStyle(color: Styles.textSecondaryColor, fontSize: 16),
         ),
-        // TODO raiting bar
-        Divider(),
+        const SizedBox(height: 5),
+        stars,
+        Divider(color: Styles.textSecondaryColor),
+        const SizedBox(height: 5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -156,6 +184,38 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: cardRightBodyWidgets))
+        ]));
+  }
+
+  Widget _buildIngredientList(Recipe recipe) {
+    return Column(children: [
+      for (var item in recipe.ingredients) _buildIngredientsRow(item)
+    ]);
+  }
+
+  Widget _buildIngredientsRow(RecipeIngredient recipeIngredient) {
+    var icon = Container(
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Styles.backgroundPrimaryColor,
+          boxShadow: [Styles.boxShadow],
+        ),
+        child: Icon(
+          CupertinoIcons.leaf_arrow_circlepath,
+          size: 40,
+        ));
+
+    return Container(
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          icon,
+          SizedBox(width: 10),
+          Expanded(
+              child: Text(recipeIngredient.product.title,
+                  style: Styles.headerTextStyle)),
+          SizedBox(width: 10),
+          Text(recipeIngredient.amount, style: Styles.headerTextStyle),
         ]));
   }
 }

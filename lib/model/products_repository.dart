@@ -9,7 +9,7 @@ class ProductsRepository {
 
   ProductsRepository._internal();
 
-  static final _recipeList = [
+  static var _recipeList = [
     Recipe(
         id: "1",
         numberOfServings: 1,
@@ -20,41 +20,34 @@ class ProductsRepository {
           RecipeIngredient(
               id: "1",
               isOptional: false,
-              ingredient: Ingredient(
-                  id: "1",
-                  amount: "2 шт.",
-                  product: Product(id: "1", title: "Яйцо куриное"))),
+              amount: "2 шт.",
+              product: Product(id: "1", title: "Яйцо куриное")),
           RecipeIngredient(
               id: "2",
               isOptional: false,
-              ingredient: Ingredient(
-                  id: "2",
-                  amount: "2 ломтика.",
-                  product: Product(id: "2", title: "Тостовый хлеб"),
-                  description: "Черного или зернового хлеба")),
+              amount: "2 ломтика.",
+              product: Product(id: "2", title: "Тостовый хлеб"),
+              description: "Черного или зернового хлеба"),
           RecipeIngredient(
               id: "3",
               isOptional: false,
-              ingredient: Ingredient(
-                  id: "3",
-                  amount: "30 гр.",
-                  product: Product(id: "4", title: "Творожный сыр"))),
+              amount: "30 гр.",
+              product: Product(id: "4", title: "Творожный сыр")),
           RecipeIngredient(
               id: "4",
               isOptional: false,
-              ingredient: Ingredient(
-                id: "4",
-                amount: "30 гр.",
-                product: Product(id: "4", title: "Слабосоленая красная рыба"),
-              ),
+              amount: "30 гр.",
+              product: Product(id: "4", title: "Слабосоленая красная рыба"),
               options: [
-                Ingredient(
+                RecipeIngredient(
                   id: "5",
+                  isOptional: false,
                   amount: "40 гр.",
                   product: Product(id: "5", title: "Тунец консервированный"),
                 ),
-                Ingredient(
+                RecipeIngredient(
                     id: "6",
+                    isOptional: false,
                     amount: "40 гр.",
                     product: Product(id: "6", title: "Куриное филе"),
                     description: "Вес в сыром виде"),

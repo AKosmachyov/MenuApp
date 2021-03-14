@@ -55,27 +55,18 @@ class Recipe {
 class RecipeIngredient {
   RecipeIngredient(
       {required this.id,
-      required this.isOptional,
-      required this.ingredient,
-      this.options});
-
-  final String id;
-  final bool isOptional;
-  final Ingredient ingredient;
-  List<Ingredient>? options;
-}
-
-class Ingredient {
-  Ingredient(
-      {required this.id,
       required this.amount,
       required this.product,
-      this.description});
+      this.description,
+      required this.isOptional,
+      this.options});
 
   final String id;
   final String amount;
   final Product product;
   String? description;
+  final bool isOptional;
+  List<RecipeIngredient>? options;
 }
 
 class Product {
