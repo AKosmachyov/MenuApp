@@ -53,10 +53,18 @@ abstract class Styles {
   static const Color textPrimaryColor = Color(0xFF1B202B);
   static const Color textSecondaryColor = Color(0xFF9A9EA7);
 
+  static const Color backgroundPrimaryColor = Color(0xFFFFFFFF);
+
   static const TextStyle headerTextStyle = TextStyle(
     color: textPrimaryColor,
     fontSize: 18,
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.bold,
+  );
+
+  static const BoxShadow boxShadow = BoxShadow(
+    color: const Color.fromARGB(30, 0, 0, 0),
+    offset: const Offset(0, 2),
+    blurRadius: 10,
   );
 }

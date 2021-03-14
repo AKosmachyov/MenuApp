@@ -58,14 +58,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
 
     return SingleChildScrollView(
       child: Column(
-        children: [
-          _buildInfoCard(recipe),
-          Text("qweqe"),
-          SizedBox(height: 700),
-          Container(
-            child: Text("12313"),
-          ),
-        ],
+        children: [_buildInfoCard(recipe), _buildInstructionList(recipe)],
       ),
     );
   }
@@ -76,14 +69,8 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
       padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(6)),
-        color: Colors.white,
-        boxShadow: [
-          const BoxShadow(
-            color: const Color.fromARGB(30, 0, 0, 0),
-            offset: const Offset(0, 10),
-            blurRadius: 10,
-          ),
-        ],
+        color: Styles.backgroundPrimaryColor,
+        boxShadow: [Styles.boxShadow],
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(recipe.title, style: Styles.headerTextStyle),
@@ -128,40 +115,47 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
       )
     ]);
   }
+
+  Widget _buildInstructionList(Recipe recipe) {
+    return Column(children: [
+      for (var item in recipe.instructions) _buildInstructionRow(item)
+    ]);
+  }
+
+  Widget _buildInstructionRow(Instruction instruction) {
+    List<Widget> cardRightBodyWidgets = [
+      Text(instruction.title, style: Styles.headerTextStyle),
+    ];
+    if (instruction.description != null) {
+      cardRightBodyWidgets.add(SizedBox(height: 16));
+      cardRightBodyWidgets.add(Text(instruction.description!));
+    }
+
+    return Container(
+        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+        padding: const EdgeInsets.all(16),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+          color: Styles.backgroundPrimaryColor,
+          boxShadow: [Styles.boxShadow],
+        ),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            instruction.order.toString(),
+            style: TextStyle(
+              color: Styles.primaryColor,
+              fontSize: 30,
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(
+            width: 16,
+          ),
+          Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: cardRightBodyWidgets))
+        ]));
+  }
 }
-
-// class RecipeDetailsPage extends StatelessWidget {
-//   @override
-//   void initState() {
-//     super.initState();
-//     futureAlbum = fetchAlbum();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return CupertinoPageScaffold(
-//       navigationBar: CupertinoNavigationBar(middle: Text("Details")),
-//       child: Center(
-//         child: Text("Test"),
-//       ),
-//     );
-//     // return Consumer<AppStateModel>(
-//     //   builder: (context, model, child) {
-//     //     final recipes = model.getRecipes();
-
-//     //     // return CustomScrollView(
-//     //     //   semanticChildCount: recipes.length,
-//     //     //   slivers: <Widget>[
-//     //     //     const CupertinoSliverNavigationBar(
-//     //     //       largeTitle: Text('Recipe'),
-//     //     //     ),
-//     //     //     // SliverSafeArea(
-//     //     //     //   top: false,
-//     //     //     //   minimum: const EdgeInsets.only(top: 8),
-//     //     //     // ),
-//     //     //   ],
-//     //     // );
-//     //   },
-//     // );
-//   }
-// }
