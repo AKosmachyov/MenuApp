@@ -54,13 +54,9 @@ class ProductsRepository {
               ]),
         ],
         instructions: [
-          Instruction(order: 0, title: "Пожарить яйчницу"),
-          Instruction(
-              order: 1,
-              title: "На хлеб намазать творожный сыр",
-              description:
-                  "Test message Test message Test message Test message Test messageTest message Test message"),
-          Instruction(order: 2, title: "На хлеб положить красной рыбы")
+          Instruction(order: 0, description: "Пожарить яйчницу"),
+          Instruction(order: 1, description: "На хлеб намазать творожный сыр"),
+          Instruction(order: 2, description: "На хлеб положить красной рыбы")
         ],
         preparationMinutes: 10,
         cookingMinutes: 10),

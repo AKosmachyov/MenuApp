@@ -79,10 +79,8 @@ class Product {
 }
 
 class Instruction {
-  const Instruction(
-      {required this.order, required this.title, this.description});
+  const Instruction({required this.order, required this.description});
 
   final int order;
-  final String title;
-  final String? description;
+  final String description;
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:menu_app/pages/add_recipe_page.dart';
 import 'package:menu_app/styles.dart';
 
 import 'pages/home_tab.dart';
@@ -33,6 +34,10 @@ class CupertinoStoreHomePage extends StatelessWidget {
             label: 'Products',
           ),
           BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.plus),
+            label: 'Products',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.search),
             label: 'Search',
           ),
@@ -49,15 +54,12 @@ class CupertinoStoreHomePage extends StatelessWidget {
             returnValue = CupertinoTabView(builder: (context) => HomeTab());
             break;
           case 1:
+            returnValue =
+                CupertinoTabView(builder: (context) => AddRecipePage());
+            break;
+          case 2:
             returnValue = CupertinoTabView(builder: (context) => SearchTab());
             break;
-          // case 2:
-          //   returnValue = CupertinoTabView(builder: (context) {
-          //     return CupertinoPageScaffold(
-          //       child: ShoppingCartTab(),
-          //     );
-          //   });
-          //   break;
         }
         return returnValue;
       },

@@ -151,14 +151,6 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
   }
 
   Widget _buildInstructionRow(Instruction instruction) {
-    List<Widget> cardRightBodyWidgets = [
-      Text(instruction.title, style: Styles.headerTextStyle),
-    ];
-    if (instruction.description != null) {
-      cardRightBodyWidgets.add(SizedBox(height: 16));
-      cardRightBodyWidgets.add(Text(instruction.description!));
-    }
-
     return Container(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
         padding: const EdgeInsets.all(16),
@@ -182,8 +174,11 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
           ),
           Expanded(
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: cardRightBodyWidgets))
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(instruction.description, style: Styles.headerTextStyle)
+            ],
+          ))
         ]));
   }
 
