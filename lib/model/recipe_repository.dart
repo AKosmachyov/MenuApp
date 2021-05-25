@@ -1,13 +1,15 @@
+import 'package:flutter/widgets.dart';
+
 import 'models.dart';
 
-class ProductsRepository {
-  static final ProductsRepository _instance = ProductsRepository._internal();
+class RecipesRepository {
+  static final RecipesRepository _instance = RecipesRepository._internal();
 
-  factory ProductsRepository() {
+  factory RecipesRepository() {
     return _instance;
   }
 
-  ProductsRepository._internal();
+  RecipesRepository._internal();
 
   static var _recipeList = [
     Recipe(
@@ -68,5 +70,11 @@ class ProductsRepository {
 
   Future<Recipe> fetchRecipe(String id) async {
     return _recipeList.first;
+  }
+
+  Future<Recipe> saveRecipes(Recipe recipe) async {
+    recipe.id = UniqueKey().toString();
+    _recipeList.add(recipe);
+    return recipe;
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart' as foundation;
 
 import 'models.dart';
-import 'products_repository.dart';
+import 'recipe_repository.dart';
 
 double _salesTaxRate = 0.06;
 double _shippingCostPerItem = 7;
@@ -113,11 +113,17 @@ class AppStateModel extends foundation.ChangeNotifier {
   // }
 
   // // Loads the list of available products from the repo.
-  void loadProducts() async {
+  void loadRecipes() async {
     try {
-      _recipes = await ProductsRepository().fetchRecipes();
+      _recipes = await RecipesRepository().fetchRecipes();
       notifyListeners();
     } on Exception catch (ex) {}
+  }
+
+  void saveRecipe(Recipe recipe) async {
+    final serverRecipe = await RecipesRepository().saveRecipes(recipe);
+    _recipes.add(serverRecipe);
+    notifyListeners();
   }
 
   // void setCategory(Category newCategory) {

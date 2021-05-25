@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:menu_app/model/models.dart';
-import 'package:menu_app/model/products_repository.dart';
+import 'package:menu_app/model/recipe_repository.dart';
 import 'package:menu_app/styles.dart';
 
 class RecipeDetailsPage extends StatefulWidget {
@@ -17,7 +17,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
   @override
   void initState() {
     super.initState();
-    futureRecipe = ProductsRepository().fetchRecipe("123");
+    futureRecipe = RecipesRepository().fetchRecipe("123");
   }
 
   @override

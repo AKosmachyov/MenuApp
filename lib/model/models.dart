@@ -35,17 +35,19 @@ class Recipe {
       required this.description,
       this.preparationMinutes,
       this.cookingMinutes,
+      this.tags = const [],
       required this.ingredients,
       required this.instructions});
 
-  final String id;
-  final int numberOfServings;
-  final String title;
-  final String description;
+  String id;
+  int numberOfServings;
+  String title;
+  String description;
 
   int? preparationMinutes;
   int? cookingMinutes;
 
+  List<String> tags;
   List<RecipeIngredient> ingredients;
   List<Instruction> instructions;
 

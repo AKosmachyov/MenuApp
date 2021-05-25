@@ -15,7 +15,7 @@ class HomeTab extends StatelessWidget {
           semanticChildCount: recipes.length,
           slivers: <Widget>[
             const CupertinoSliverNavigationBar(
-              largeTitle: Text('Cupertino Store'),
+              largeTitle: Text('Recipes'),
             ),
             SliverSafeArea(
               top: false,
