@@ -1,6 +1,9 @@
-# menu_app
+# Menu App (Recipes) 
 
-A new Flutter project.
+Small project with Cupertino (iOS-style) widgets.
+
+<image width="200px" src="./media/home.png"> <image width="200px" src="./media/details.png">
+<image width="200px" src="./media/add.png"> <image width="200px" src="./media/search.png">
 
 ## Getting Started
 

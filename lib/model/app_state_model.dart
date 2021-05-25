@@ -1,125 +1,36 @@
 import 'package:flutter/foundation.dart' as foundation;
 
-import 'product.dart';
-import 'products_repository.dart';
-
-double _salesTaxRate = 0.06;
-double _shippingCostPerItem = 7;
+import 'models.dart';
+import 'recipe_repository.dart';
 
 class AppStateModel extends foundation.ChangeNotifier {
-  // All the available products.
-  List<Product> _availableProducts = [];
+  List<Recipe> _recipes = [];
+  List<Recipe> recipeSearch = [];
 
-  // The currently selected category of products.
-  Category _selectedCategory = Category.all;
-
-  // The IDs and quantities of products currently in the cart.
-  final _productsInCart = <int, int>{};
-
-  Map<int, int> get productsInCart {
-    return Map.from(_productsInCart);
+  List<Recipe> getRecipes() {
+    return List.from(_recipes);
   }
 
-  // Total number of items in the cart.
-  int get totalCartQuantity {
-    return _productsInCart.values.fold(0, (accumulator, value) {
-      return accumulator + value;
-    });
+  // Search the recipes
+  void search(String searchTerms) async {
+    recipeSearch.clear();
+    try {
+      recipeSearch = await RecipesRepository().search(searchTerms);
+      notifyListeners();
+    } on Exception catch (ex) {}
   }
 
-  Category get selectedCategory {
-    return _selectedCategory;
+  // Loads the recipes of available products from the repo.
+  void loadRecipes() async {
+    try {
+      _recipes = await RecipesRepository().fetchRecipes();
+      notifyListeners();
+    } on Exception catch (ex) {}
   }
 
-  // Totaled prices of the items in the cart.
-  double get subtotalCost {
-    return _productsInCart.keys.map((id) {
-      // Extended price for product line
-      return getProductById(id).price * _productsInCart[id]!;
-    }).fold(0, (accumulator, extendedPrice) {
-      return accumulator + extendedPrice;
-    });
-  }
-
-  // Total shipping cost for the items in the cart.
-  double get shippingCost {
-    return _shippingCostPerItem *
-        _productsInCart.values.fold(0.0, (accumulator, itemCount) {
-          return accumulator + itemCount;
-        });
-  }
-
-  // Sales tax for the items in the cart
-  double get tax {
-    return subtotalCost * _salesTaxRate;
-  }
-
-  // Total cost to order everything in the cart.
-  double get totalCost {
-    return subtotalCost + shippingCost + tax;
-  }
-
-  // Returns a copy of the list of available products, filtered by category.
-  List<Product> getProducts() {
-    if (_selectedCategory == Category.all) {
-      return List.from(_availableProducts);
-    } else {
-      return _availableProducts.where((p) {
-        return p.category == _selectedCategory;
-      }).toList();
-    }
-  }
-
-  // Search the product catalog
-  List<Product> search(String searchTerms) {
-    return getProducts().where((product) {
-      return product.name.toLowerCase().contains(searchTerms.toLowerCase());
-    }).toList();
-  }
-
-  // Adds a product to the cart.
-  void addProductToCart(int productId) {
-    if (!_productsInCart.containsKey(productId)) {
-      _productsInCart[productId] = 1;
-    } else {
-      _productsInCart[productId] = _productsInCart[productId]! + 1;
-    }
-
-    notifyListeners();
-  }
-
-  // Removes an item from the cart.
-  void removeItemFromCart(int productId) {
-    if (_productsInCart.containsKey(productId)) {
-      if (_productsInCart[productId] == 1) {
-        _productsInCart.remove(productId);
-      } else {
-        _productsInCart[productId] = _productsInCart[productId]! - 1;
-      }
-    }
-
-    notifyListeners();
-  }
-
-  // Returns the Product instance matching the provided id.
-  Product getProductById(int id) {
-    return _availableProducts.firstWhere((p) => p.id == id);
-  }
-
-  // Removes everything from the cart.
-  void clearCart() {
-    _productsInCart.clear();
-    notifyListeners();
-  }
-
-  // Loads the list of available products from the repo.
-  void loadProducts() {
-    _availableProducts = ProductsRepository.loadProducts(Category.all);
-    notifyListeners();
-  }
-
-  void setCategory(Category newCategory) {
-    _selectedCategory = newCategory;
+  void saveRecipe(Recipe recipe) async {
+    final serverRecipe = await RecipesRepository().saveRecipes(recipe);
+    _recipes.add(serverRecipe);
     notifyListeners();
   }
 }

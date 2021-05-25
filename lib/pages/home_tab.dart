@@ -1,37 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import 'model/app_state_model.dart';
-import 'product_row_item.dart';
+import '../model/app_state_model.dart';
+import 'package:menu_app/components/recipe_list_row_item.dart';
 
-class ProductListTab extends StatelessWidget {
+class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AppStateModel>(
       builder: (context, model, child) {
-        final products = model.getProducts();
-        return CustomScrollView(
-          semanticChildCount: products.length,
+        final recipes = model.getRecipes();
+        return CupertinoPageScaffold(
+            child: CustomScrollView(
+          semanticChildCount: recipes.length,
           slivers: <Widget>[
             const CupertinoSliverNavigationBar(
-              largeTitle: Text('Cupertino Store'),
+              largeTitle: Text('Recipes'),
             ),
             SliverSafeArea(
               top: false,
               minimum: const EdgeInsets.only(top: 8),
               sliver: SliverList(
                   delegate: SliverChildBuilderDelegate((context, index) {
-                if (index < products.length) {
-                  return ProductRowItem(
-                      product: products[index],
-                      lastItem: index == products.length);
+                if (index < recipes.length) {
+                  return RecipeListRowItem(
+                      recipe: recipes[index],
+                      isLastItem: index == recipes.length);
                 }
-
                 return null;
               })),
             ),
           ],
-        );
+        ));
       },
     );
   }

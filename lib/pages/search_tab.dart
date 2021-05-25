@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:menu_app/components/recipe_list_row_item.dart';
 import 'package:provider/provider.dart';
 
-import 'model/app_state_model.dart';
-import 'product_row_item.dart';
-import 'search_bar.dart';
-import 'styles.dart';
+import '../model/app_state_model.dart';
+import '../search_bar.dart';
+import '../styles.dart';
 
 class SearchTab extends StatefulWidget {
   @override
@@ -36,6 +36,11 @@ class _SearchTabState extends State<SearchTab> {
     setState(() {
       _terms = _controller.text;
     });
+
+    if (_terms.length > 2) {
+      final model = Provider.of<AppStateModel>(context, listen: false);
+      model.search(_terms);
+    }
   }
 
   Widget _buildSearchBox() {
@@ -51,7 +56,7 @@ class _SearchTabState extends State<SearchTab> {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<AppStateModel>(context);
-    final result = model.search(_terms);
+    final result = model.recipeSearch;
 
     return DecoratedBox(
       decoration: const BoxDecoration(
@@ -62,11 +67,19 @@ class _SearchTabState extends State<SearchTab> {
           children: [
             _buildSearchBox(),
             Expanded(
-                child: ListView.builder(
-              itemBuilder: (context, index) => ProductRowItem(
-                  product: result[index], lastItem: index == result.length - 1),
-              itemCount: result.length,
-            )),
+              child: ListView.builder(
+                  itemCount: result.length,
+                  itemBuilder: (context, index) {
+                    return RecipeListRowItem(
+                        recipe: result[index],
+                        isLastItem: index == result.length);
+                  }
+
+                  // ProductRowItem(
+                  //     product: result[index], lastItem: index == result.length - 1),
+                  // itemCount: result.length,
+                  ),
+            ),
           ],
         ),
       ),
