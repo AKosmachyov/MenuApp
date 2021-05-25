@@ -6,6 +6,10 @@ import 'package:menu_app/model/recipe_repository.dart';
 import 'package:menu_app/styles.dart';
 
 class RecipeDetailsPage extends StatefulWidget {
+  final String recipeId;
+
+  const RecipeDetailsPage({Key? key, required this.recipeId}) : super(key: key);
+
   @override
   _RecipeDetailsPageState createState() => _RecipeDetailsPageState();
 }
@@ -17,7 +21,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
   @override
   void initState() {
     super.initState();
-    futureRecipe = RecipesRepository().fetchRecipe("123");
+    futureRecipe = RecipesRepository().fetchRecipe(widget.recipeId);
   }
 
   @override

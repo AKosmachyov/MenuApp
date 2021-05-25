@@ -42,7 +42,8 @@ class RecipeListRowItem extends StatelessWidget {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
-                      builder: (context) => RecipeDetailsPage()));
+                      builder: (context) =>
+                          RecipeDetailsPage(recipeId: recipe.id)));
             },
             child: const Icon(
               CupertinoIcons.chevron_right,
