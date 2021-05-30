@@ -70,7 +70,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
         .toList();
 
     int stepNumber = -1;
-    final instructions = _ingredientControllerList
+    final instructions = _stepControllerList
         .map((el) => el.text.trim())
         .where((instruction) => instruction.isNotEmpty)
         .map((instruction) {
