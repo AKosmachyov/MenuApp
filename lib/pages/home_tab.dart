@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../model/app_state_model.dart';
 import 'package:menu_app/components/recipe_list_row_item.dart';
+
+import 'info_page.dart';
 
 class HomeTab extends StatelessWidget {
   @override
@@ -14,8 +17,17 @@ class HomeTab extends StatelessWidget {
             child: CustomScrollView(
           semanticChildCount: recipes.length,
           slivers: <Widget>[
-            const CupertinoSliverNavigationBar(
+            CupertinoSliverNavigationBar(
               largeTitle: Text('Recipes'),
+              trailing: CupertinoButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => InfoPage()));
+                },
+                child: Icon(
+                  CupertinoIcons.info,
+                ),
+              ),
             ),
             SliverSafeArea(
               top: false,

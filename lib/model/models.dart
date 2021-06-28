@@ -1,31 +1,4 @@
-// enum Category {
-//   all,
-//   accessories,
-//   clothing,
-//   home,
-// }
-
-// class Product {
-//   const Product({
-//     required this.category,
-//     required this.id,
-//     required this.isFeatured,
-//     required this.name,
-//     required this.price,
-//   });
-
-//   final Category category;
-//   final int id;
-//   final bool isFeatured;
-//   final String name;
-//   final int price;
-
-//   String get assetName => '$id-0.jpg';
-//   String get assetPackage => 'shrine_images';
-
-//   @override
-//   String toString() => '$name (id=$id)';
-// }
+import 'package:flutter/widgets.dart';
 
 class Recipe {
   Recipe(
@@ -64,18 +37,27 @@ class RecipeIngredient {
       this.options});
 
   final String id;
-  final String amount;
+  String amount;
   final Product product;
   String? description;
   final bool isOptional;
   List<RecipeIngredient>? options;
+
+  static RecipeIngredient empty() {
+    return RecipeIngredient(
+      id: UniqueKey().toString(),
+      isOptional: false,
+      amount: '',
+      product: Product(id: UniqueKey().toString(), title: ''),
+    );
+  }
 }
 
 class Product {
-  const Product({required this.id, required this.title});
+  Product({required this.id, required this.title});
 
   final String id;
-  final String title;
+  String title;
   // image: string;
   // unit: Enum;
 }

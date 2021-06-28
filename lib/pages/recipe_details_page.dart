@@ -120,9 +120,9 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
             _buildInfoCardIcon(
                 CupertinoIcons.clock, recipe.totalTime.toString(), "minutes"),
             // TODO icons
-            _buildInfoCardIcon(CupertinoIcons.ant,
+            _buildInfoCardIcon(Icons.people_outlined,
                 recipe.numberOfServings.toString(), "servings"),
-            _buildInfoCardIcon(CupertinoIcons.rays,
+            _buildInfoCardIcon(Icons.checklist_outlined,
                 recipe.instructions.length.toString(), "steps"),
           ],
         )
@@ -200,7 +200,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
           boxShadow: [Styles.boxShadow],
         ),
         child: Icon(
-          CupertinoIcons.leaf_arrow_circlepath,
+          Icons.shopping_basket_outlined,
           size: 40,
         ));
 
@@ -214,7 +214,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
               child: Text(recipeIngredient.product.title,
                   style: Styles.headerTextStyle)),
           SizedBox(width: 10),
-          Text(recipeIngredient.amount, style: Styles.headerTextStyle),
+          // Text(recipeIngredient.amount, style: Styles.headerTextStyle),
         ]));
   }
 }

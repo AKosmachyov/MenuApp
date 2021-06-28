@@ -22,14 +22,12 @@ class _AddRecipePageState extends State<AddRecipePage> {
   final _descriptionController = TextEditingController();
   final _tagsController = TextEditingController();
 
-  List<TextEditingController> _ingredientControllerList = [
-    TextEditingController()
-  ];
   List<TextEditingController> _stepControllerList = [TextEditingController()];
+  List<RecipeIngredient> _ingredients = [RecipeIngredient.empty()];
 
   void addIngredient() {
     setState(() {
-      _ingredientControllerList.add(TextEditingController());
+      _ingredients.add(RecipeIngredient.empty());
     });
   }
 
@@ -59,16 +57,6 @@ class _AddRecipePageState extends State<AddRecipePage> {
         .where((tag) => tag.isNotEmpty)
         .toList();
 
-    final ingredients = _ingredientControllerList
-        .map((el) => el.text.trim())
-        .where((ingredient) => ingredient.isNotEmpty)
-        .map((ingredient) => RecipeIngredient(
-            id: UniqueKey().toString(),
-            isOptional: false,
-            amount: "2 шт.",
-            product: Product(id: UniqueKey().toString(), title: ingredient)))
-        .toList();
-
     int stepNumber = -1;
     final instructions = _stepControllerList
         .map((el) => el.text.trim())
@@ -84,7 +72,7 @@ class _AddRecipePageState extends State<AddRecipePage> {
         title: title,
         description: _descriptionController.text,
         tags: tags,
-        ingredients: ingredients,
+        ingredients: [..._ingredients],
         instructions: instructions,
         preparationMinutes: 10,
         cookingMinutes: 10);
@@ -99,10 +87,11 @@ class _AddRecipePageState extends State<AddRecipePage> {
           .forEach((list) {
         list.clear();
       });
-      [_ingredientControllerList, _stepControllerList].forEach((list) {
+      [_stepControllerList].forEach((list) {
         list.clear();
         list.add(TextEditingController());
       });
+      _ingredients.clear();
     });
   }
 
@@ -159,16 +148,23 @@ class _AddRecipePageState extends State<AddRecipePage> {
                   itemExtent: 68,
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
-                      if (index == _ingredientControllerList.length) {
+                      if (index == _ingredients.length) {
                         return CupertinoButton(
-                            child: Text('Add'), onPressed: addIngredient);
+                          child: Text('Add'),
+                          onPressed: addIngredient,
+                        );
                       }
-
                       final placeholder = 'Item ' + (index + 1).toString();
-                      final textController = _ingredientControllerList[index];
-                      return buildCell(textController, placeholder);
+                      // final textController = _ingredientControllerList[index];
+
+                      final ingredient = _ingredients[index];
+                      return IngridientWidget(
+                        ingredient: ingredient,
+                        placeholder: placeholder,
+                      );
+                      // return buildCell(textController, placeholder);
                     },
-                    childCount: _ingredientControllerList.length + 1,
+                    childCount: _ingredients.length + 1,
                   ),
                 ),
                 SliverList(
@@ -227,5 +223,74 @@ class _AddRecipePageState extends State<AddRecipePage> {
           padding: inputPadding,
           decoration: inputDecoration,
         ));
+  }
+}
+
+class IngridientWidget extends StatefulWidget {
+  RecipeIngredient ingredient;
+  final String placeholder;
+
+  IngridientWidget({
+    required this.ingredient,
+    required this.placeholder,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _IngridientWidgetState createState() => _IngridientWidgetState();
+}
+
+class _IngridientWidgetState extends State<IngridientWidget> {
+  late final TextEditingController _descriptionController;
+  late final TextEditingController _amountController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final productTitle = widget.ingredient.product.title;
+    final amount = widget.ingredient.amount;
+    _descriptionController = TextEditingController(text: productTitle);
+    _descriptionController.addListener(_updateProduct);
+    _amountController = TextEditingController(text: amount);
+    _amountController.addListener(_updateAmount);
+  }
+
+  void _updateProduct() {
+    widget.ingredient.product.title = _descriptionController.text;
+  }
+
+  void _updateAmount() {
+    widget.ingredient.amount = _amountController.text;
+  }
+  // myController.addListener(_printLatestValue);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        children: [
+          Flexible(
+            flex: 2,
+            child: CupertinoTextField(
+              placeholder: widget.placeholder,
+              controller: _descriptionController,
+              padding: inputPadding,
+              decoration: inputDecoration,
+            ),
+          ),
+          SizedBox(width: 8),
+          Flexible(
+            child: CupertinoTextField(
+              placeholder: 'Amount',
+              controller: _amountController,
+              padding: inputPadding,
+              decoration: inputDecoration,
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
