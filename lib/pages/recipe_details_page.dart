@@ -156,14 +156,16 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
 
   Widget _buildInstructionRow(Instruction instruction) {
     return Container(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
-        padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(6)),
-          color: Styles.backgroundPrimaryColor,
-          boxShadow: [Styles.boxShadow],
-        ),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
+      padding: const EdgeInsets.all(16),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+        color: Styles.backgroundPrimaryColor,
+        boxShadow: [Styles.boxShadow],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Text(
             instruction.order.toString(),
             style: TextStyle(
@@ -177,13 +179,16 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
             width: 16,
           ),
           Expanded(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(instruction.description, style: Styles.headerTextStyle)
-            ],
-          ))
-        ]));
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(instruction.description, style: Styles.headerTextStyle)
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 
   Widget _buildIngredientList(Recipe recipe) {
@@ -197,11 +202,10 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           color: Styles.backgroundPrimaryColor,
-          boxShadow: [Styles.boxShadow],
         ),
         child: Icon(
           Icons.shopping_basket_outlined,
-          size: 40,
+          size: 30,
         ));
 
     return Container(
@@ -214,7 +218,7 @@ class _RecipeDetailsPageState extends State<RecipeDetailsPage> {
               child: Text(recipeIngredient.product.title,
                   style: Styles.headerTextStyle)),
           SizedBox(width: 10),
-          // Text(recipeIngredient.amount, style: Styles.headerTextStyle),
+          Text(recipeIngredient.amount, style: Styles.headerTextStyle),
         ]));
   }
 }

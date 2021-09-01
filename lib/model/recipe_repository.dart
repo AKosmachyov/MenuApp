@@ -1,6 +1,10 @@
 import 'package:flutter/widgets.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'models.dart';
+
+const keyRecipes = 'recipes';
 
 class RecipesRepository {
   static final RecipesRepository _instance = RecipesRepository._internal();
@@ -152,6 +156,18 @@ class RecipesRepository {
   ];
 
   Future<List<Recipe>> fetchRecipes() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final list = prefs.getStringList(keyRecipes);
+    if (list != null && list.isNotEmpty) {
+      _recipeList = list
+          .map(
+            (e) => Recipe.fromJson(
+              jsonDecode(e) as Map<String, dynamic>,
+            ),
+          )
+          .toList();
+    }
+
     return List.from(_recipeList);
   }
 
@@ -162,6 +178,13 @@ class RecipesRepository {
   Future<Recipe> saveRecipes(Recipe recipe) async {
     recipe.id = UniqueKey().toString();
     _recipeList.add(recipe);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList(
+      keyRecipes,
+      _recipeList.map((e) => jsonEncode(e.toJson())).toList(),
+    );
+
     return recipe;
   }
 
